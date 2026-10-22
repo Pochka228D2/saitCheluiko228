@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>магазин дотеров</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Безмамным</h1>
+    </header>
+    <div class="container main-layout">
+        <div class="left-side">
+            <div class="filter-panel">
+                <input type="text" id="search-input" placeholder="Поиск дотера по никнейму...">
+                <select id="breed-filter">
+                    <option value="">Все позиции</option>
+                    <option value="Керри">Керри</option>
+                    <option value="Мидер">Мидер</option>
+                    <option value="Саппорт">Саппорт</option>
+                </select>
+                <select id="price-filter">
+                    <option value="">Любая цена</option>
+                    <option value="low">До 25 000 ₽</option>
+                    <option value="high">От 25 000 ₽</option>
+                </select>
+            </div>
+            <div class="catalog" id="catalog"></div>
+        </div>
+        <div class="cart-panel">
+            <h2>Корзина</h2>
+            <div id="cart-items"></div>
+            <div class="cart-summary">
+                <span>Итого:</span>
+                <span id="cart-total">0 ₽</span>
+            </div>
+            <div class="cart-buttons" style="display: flex; gap: 10px;">
+                <button class="clear-btn" id="clear-cart-btn">Очистить</button>
+                <button class="buy-btn" id="checkout-btn" style="flex: 1; padding: 10px; border-radius: 20px;">Купить</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
