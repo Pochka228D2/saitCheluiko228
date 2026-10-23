@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Описание урода</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .product-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.15);
+            display: flex;
+            gap: 40px;
+            border: 1px solid rgba(255, 182, 193, 0.3);
+        }
+        .product-left { flex: 1; }
+        .product-right { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        .product-detail-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--dark-pink);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: #ff1493; }
+        .description-text {
+            color: #666;
+            line-height: 1.6;
+            margin: 20px 0;
+            font-size: 1.05em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 id="page-title">Описание Дотера</h1>
+    </header>
+
+    <div class="container">
+        <a href="kek.html" class="back-link">← Вернуться в магазин</a>
+        
+        <div id="product-details" class="product-container">
+            <p style="text-align: center; width: 100%;">Загрузка информации о дотере...</p>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get('id');
+
+const lore = {
+    'Пудж': 'мой парень',
+    'Инвокер': 'удали игру пж .',
+    'Лина': 'кс какашка.',
+    'Свен': 'сигма крипер вместе с сигма свинкой шли по полю.',
+    'Мирана': 'о да женщина.',
+    'Рики': 'нет'
+};
+
+async function loadProductDetail() {
+    if (!productId) {
+        document.getElementById('product-details').innerHTML = '<p style="color:red;">Товар не указан!</p>';
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/products/${productId}`);
+        const rawData = await response.json();
+        
+        const product = Array.isArray(rawData) ? rawData[0] : rawData;
+
+        if (!product) {
+            document.getElementById('product-details').innerHTML = '<p style="color:red;">Дотер не найден в базе данных!</p>';
+            return;
+        }
+
+        document.title = product.name;
+        
+        const textDesc = lore[product.name.trim()] || 'Профессиональный дотер, готовый побеждать в ваших рейтинговых матчах за еду.';
+
+        document.getElementById('product-details').innerHTML = `
+            <div class="product-left">
+                <img src="${product.img}" alt="${product.name}" class="product-detail-img">
+            </div>
+            <div class="product-right">
+                <h2 class="card-title" style="font-size: 2.2em; margin-bottom: 5px;">${product.name}</h2>
+                <div class="card-breed" style="margin-bottom: 20px;">${product.breed}</div>
+                <p class="description-text"><strong>О герое:</strong> ${textDesc}</p>
+                <div class="card-price" style="font-size: 1.8em; margin-bottom: 25px;">${product.price.toLocaleString()} ₽</div>
+                <button class="buy-btn" onclick="addToCartFromDetail(${product.id})">Купить в один клик</button>
+            </div>
+        `;
+    } catch (error) {
+        console.error(error);
+        document.getElementById('product-details').innerHTML = '<p style="color:red;">Ошибка при получении данных с сервера бэкенда.</p>';
+    }
+}
+
+window.addToCartFromDetail = function(id) {
+    const isAuthorized = localStorage.getItem('user');
+    if (!isAuthorized) {
+        alert('Необходимо войти в аккаунт на главной странице магазина!');
+        window.location.href = 'kek.html';
+        return;
+    }
+    
+    sessionStorage.setItem('addToCartImmediate', id);
+    window.location.href = 'kek.html';
+};
+
+loadProductDetail();
+
+    </script>
+</body>
+</html>

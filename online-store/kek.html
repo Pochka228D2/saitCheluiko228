@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>магазин дотеров</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <!-- ВСПЛЫВАЮЩЕЕ ОКНО ОФОРМЛЕНИЯ ЗАКАЗА И ДОСТАВКИ -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content" style="max-width: 450px;">
+            <span class="close-modal" id="close-order-modal-btn">&times;</span>
+            <h2 style="color: var(--dark-pink); text-align: center; margin-bottom: 20px;">Оформление доставки</h2>
+            
+            <div id="order-form">
+                <div style="margin-bottom: 15px;">
+                    <label style="font-weight: 600; font-size: 0.9em; color: #555;">Адрес доставки (Игровой или реальный):</label>
+                    <input type="text" id="order-address" placeholder="Например: Нижний Лоу-приорити сити, ул. Мидаса, д. 322">
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="font-weight: 600; font-size: 0.9em; color: #555;">Способ доставки дотера:</label>
+                    <select id="order-delivery-type" class="filter-panel select" style="width: 100%; margin-top: 5px; padding: 10px; border: 1px solid var(--search-border); border-radius: 12px; background-image: none;">
+                        <option value="курьер">Курьерский Пудж (Быстро, но может хукнуть)</option>
+                        <option value="телепорт">Свиток телепортации TPs (Мгновенно на фонтан)</option>
+                        <option value="самовывоз">Самовывоз из таверны Рошана (Бесплатно)</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="font-weight: 600; font-size: 0.9em; color: #555;">Способ оплаты:</label>
+                    <select id="order-payment" class="filter-panel select" style="width: 100%; margin-top: 5px; padding: 10px; border: 1px solid var(--search-border); border-radius: 12px; background-image: none;">
+                        <option value="gold">Внутриигровое золото (Nett Gold)</option>
+                        <option value="mom-card">Секретная карта мамы</option>
+                        <option value="sbp">СБП (Система Быстрых Пуджей)</option>
+                    </select>
+                </div>
+
+                <div id="order-summary-info" style="background-color: var(--light-pink); padding: 15px; border-radius: 12px; margin-bottom: 20px; font-weight: 600; color: #333;">
+                    <!-- Сюда JS подставит итоговую сумму -->
+                </div>
+
+                <button id="submit-order-btn" class="buy-btn" style="width: 100%; padding: 14px; font-size: 16px;">Подтвердить заказ дотеров</button>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <h1>магазин</h1>
+        <div class="header-auth">
+            <span id="header-welcome" style="display: none; color: white; margin-right: 15px; font-weight: bold;"></span>
+            <button id="auth-trigger-btn" class="buy-btn" style="background-color: white; color: var(--dark-pink); border-radius: 20px; padding: 8px 20px;">Войти</button>
+        </div>
+    </header>
+
+    <div class="container main-layout">
+        <div class="left-side">
+            <div class="filter-panel">
+                <input type="text" id="search-input" placeholder="Поиск дотера по никнейму...">
+                <select id="breed-filter">
+                    <option value="">Все позиции</option>
+                    <option value="Керри">Керри</option>
+                    <option value="Мидер">Мидер</option>
+                    <option value="Саппорт">Саппорт</option>
+                </select>
+                <select id="price-filter">
+                    <option value="">Любая цена</option>
+                    <option value="low">До 25 000 ₽</option>
+                    <option value="high">От 25 000 ₽</option>
+                </select>
+            </div>
+            <div class="catalog" id="catalog"></div>
+        </div>
+
+        <div class="cart-panel">
+            <h2>Корзина</h2>
+            <div id="cart-items"></div>
+            <div class="cart-summary">
+                <span>Итого:</span>
+                <span id="cart-total">0 ₽</span>
+            </div>
+            <div class="cart-buttons" style="display: flex; gap: 10px;">
+                <button class="clear-btn" id="clear-cart-btn">Очистить</button>
+                <button class="buy-btn" id="checkout-btn" style="flex: 1; padding: 10px; border-radius: 20px;">Купить</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal-btn">&times;</span>
+            <h2 id="auth-title">Вход / Регистрация</h2>
+            
+            <div id="auth-form">
+                <input type="text" id="auth-username" placeholder="Никнейм...">
+                <input type="password" id="auth-password" placeholder="Пароль...">
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button id="login-btn" class="buy-btn" style="flex: 1;">Войти</button>
+                    <button id="register-btn" class="clear-btn" style="flex: 1; border-radius: 8px;">Рега</button>
+                </div>
+            </div>
+
+            <div id="user-profile" style="display: none; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px;">
+                <span id="welcome-text" style="font-size: 1.2em; font-weight: bold; color: var(--dark-pink);"></span>
+                <button id="logout-btn" class="clear-btn" style="width: 100%; border-radius: 8px;">Выйти из аккаунта</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
